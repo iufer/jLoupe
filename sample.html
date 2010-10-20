@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>jLoupe Sample 2010</title>
+	<meta name="author" content="cgiufer">
+
+	<style type="text/css" media="screen">
+		body { font-family:Arial; color:#595959; font-size:90%; background:#efefef;}
+		fieldset { border:1px solid #ddd; background:white; margin:1.5em 0 1em;}
+		legend { font-weight:bold; }
+		hr { border:0; height:1px; background:#ddd; }
+		p { margin:0 0 0.5em 0; }
+		h2 { font-size: 18px; }
+		pre { font-family:Menlo, courier; }
+		pre strong { color:orange; }
+		img {border:0; }
+	</style>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="jquery.jloupe.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+
+
+<h1>jLoupe 1.2</h1>
+<p>By Chris Iufer <a href="mailto:&#x63;&#x68;&#x72;&#x69;&#x73;&#x40;&#x69;&#x75;&#x66;&#x65;&#x72;&#x2E;&#x63;&#x6F;&#x6D;">chris@iufer.com</a></p>
+<hr />
+
+<p>Requires <a href="http://docs.jquery.com/Downloading_jQuery">jQuery 1.4+</a></p>
+
+<h2>Download</h2>
+<p><a href="jquery.jloupe.js.zip">jquery.jloupe.js</a></p>
+
+<fieldset>
+	<legend>Example 1: Scaled Thumbnail</legend>
+	<p>an image scaled using the width or height attribute</p>
+
+	<img src="http://farm1.static.flickr.com/72/160628558_32dbe92ceb_o.jpg" width="256" class="jLoupe">
+	<pre>&lt;img src="<strong>largesize.jpg</strong>" width="256" class="<strong>jLoupe</strong>"&gt;</pre>
+</fieldset>
+
+<fieldset>
+	<legend>Example 2: Linked Thumbnail</legend>
+	<p>a thumbnail image with a fullsize image set as the link href</p>
+
+	<a href="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_b.jpg"><img src="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_m.jpg" class="jLoupe"></a>
+	<a href="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_b.jpg"><img src="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_m.jpg" class="jLoupe"></a>
+	<a href="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_b.jpg"><img src="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_m.jpg" class="jLoupe"></a>
+	
+	<pre>&lt;a href="<strong>largesize.jpg</strong>"&gt;&lt;img src="thumbnail.jpg" class="<strong>jLoupe</strong>"&gt;&lt;/a&gt;</pre>
+</fieldset>
+
+<h2>Configurable Options</h2>
+<ul>
+	<li><strong>loupe</strong>: set the width and height of the loupe</li>
+	<li><strong>margin</strong>: the margin around the viewable area inside of the loupe</li>
+	<li><strong>cursorOffset</strong>: set the x and y distance from the cursor. (note: this will not work if the offset is a negative integer)</li>
+	<li><strong>bgColor</strong>: the background color of the loupe</li>
+</ul>
+
+<p>Current version 1.2 (20100830)</p>
+
+</body>
+</html>

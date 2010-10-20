@@ -1,6 +1,6 @@
 /*
- jQuery Loupe v1.1
- Copyright (C) 2008 Chris Iufer (chris@iufer.com)
+ jQuery Loupe v1.2
+ Copyright (C) 2010 Chris Iufer (chris@iufer.com)
 
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -18,35 +18,98 @@
 */
 
 $(function(){
+	var jLoupe = {
+		loupe: {'width':200, 'height':200},
+		margin: {x:6, y:6},
+		cursorOffset: {x:10, y:10},
+		bgColor: '#999999'
+	};
 	
-	var loupe = {'width' : 200, 'height': 151};
+	jLoupe.radius = jLoupe.loupe.width/2;
 	
-	$('<div id="thejLoupe"/>').addClass('thejLoupe').css('position','absolute').css('width',loupe.width+'px').css('height',loupe.height+'px').css('backgroundColor','rgba(0,0,0,0.25)').hide().appendTo('body');	
-	$('<div id="zoomWrapper" />').css('width',loupe.width-10+'px').css('height',loupe.height-10+'px').css('overflow','hidden').css('marginTop','5px').css('marginLeft','5px').appendTo('#thejLoupe');
+	$('<div id="thejLoupe" />')
+		.css('position','absolute')
+		.css('width',jLoupe.loupe.width+'px')
+		.css('height',jLoupe.loupe.height+'px')
+		.css('backgroundColor', jLoupe.bgColor)		
+		.hide()
+		.appendTo('body');
+	
+	$('<div id="zoomWrapper" />')
+		.css('width',jLoupe.loupe.width-jLoupe.margin.x*2+'px')
+		.css('height',jLoupe.loupe.height-jLoupe.margin.y*2+'px')
+		.css('backgroundRepeat','no-repeat')
+		.css('marginLeft', jLoupe.margin.x+'px')
+		.css('marginTop', jLoupe.margin.y+'px')
+		.appendTo('#thejLoupe');
+
+	if($.support.cssProperty('borderRadius')){
+		$('#thejLoupe, #zoomWrapper')
+			.css('border-bottom-left-radius', jLoupe.radius)
+			.css('border-bottom-right-radius', jLoupe.radius)
+			.css('border-top-right-radius', jLoupe.radius)
+			.css('-moz-border-radius-bottomright', jLoupe.radius)
+			.css('-moz-border-radius-bottomleft', jLoupe.radius)
+			.css('-moz-border-radius-topright', jLoupe.radius);
+	}
+
 
 	$('.jLoupe').each(function(){
-		var s = ($(this).attr('longdesc') != undefined) ? $(this).attr('longdesc') : $(this).attr('src');
-		var i = $('<img />').bind('load',function(){
-				$(this).data('size',{'width':this.width, 'height':this.height});
-			}).attr('src', s).hide().appendTo('#zoomWrapper');	
+		var h = $(this).parent('a').attr('href');
+		var s = $(this).attr('src');
+		s = (h) ? h : s;
+		var i = $('<img />').attr('src', s);	
 		$(this).data('zoom',i);		
 	})
 	.bind('mousemove', function(e){ 
 		var o = $(this).offset();
 		var i = $(this).data('zoom');
-		$('#thejLoupe').css('left',e.pageX+10).css('top',e.pageY+10);
-		var zlo = ((e.pageX - o.left) / this.width) * $(i).data('size').width - (loupe.width/2) - 14;
-		var zto = ((e.pageY - o.top) / this.height) * $(i).data('size').height - (loupe.height/2) - 14;
-		$(i).css('marginLeft', zlo * -1 + 'px').css('marginTop', zto * -1 + 'px').show();
+		$('#zoomWrapper').css('backgroundImage', 'url('+ $(i).attr('src') +')');
+					
+		if(e.pageX || e.pageY){
+			posx = e.pageX;
+			posy = e.pageY;
+		}
+		else if(e.clientX || e.clientY){
+			posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+		$('#thejLoupe').offset({top:posy+jLoupe.cursorOffset.y, left:posx+jLoupe.cursorOffset.x});
+		
+		zlo = (((posx - o.left) / this.width) * $(i).attr('width') *-1) + (jLoupe.loupe.width/2.5);
+		zto = (((posy - o.top) / this.height) * $(i).attr('height') *-1) + (jLoupe.loupe.height/2.5);
+
+		$('#zoomWrapper').css('backgroundPosition', zlo+'px ' + zto+'px');
 	})
-	.bind('mouseout', function(e){
+	.bind('mouseout', function(){
 		$(this).data('zoom').hide();
 		$('#thejLoupe').hide();
 	})
-	.bind('mouseover', function(e){
+	.bind('mouseover', function(){
 		$(this).data('zoom').show();
 		$('#thejLoupe').show();
 	});
 	
-	
-});
+});	
+
+$.support.cssProperty = (function() {
+  function cssProperty(p, rp) {
+    var b = document.body || document.documentElement,
+    s = b.style;
+
+    // No css support detected
+    if(typeof s == 'undefined') { return false; }
+
+    // Tests for standard prop
+    if(typeof s[p] == 'string') { return rp ? p : true; }
+
+    // Tests for vendor specific prop
+    v = ['Moz', 'Webkit', 'Khtml', 'O', 'Ms'],
+    p = p.charAt(0).toUpperCase() + p.substr(1);
+    for(var i=0; i<v.length; i++) {
+      if(typeof s[v[i] + p] == 'string') { return rp ? (v[i] + p) : true; }
+    }
+  }
+
+  return cssProperty;
+})();
