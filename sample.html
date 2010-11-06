@@ -46,21 +46,53 @@
 	<p>a thumbnail image with a fullsize image set as the link href</p>
 
 	<a href="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_b.jpg"><img src="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_m.jpg" class="jLoupe"></a>
-	<a href="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_b.jpg"><img src="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_m.jpg" class="jLoupe"></a>
-	<a href="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_b.jpg"><img src="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_m.jpg" class="jLoupe"></a>
 	
 	<pre>&lt;a href="<strong>largesize.jpg</strong>"&gt;&lt;img src="thumbnail.jpg" class="<strong>jLoupe</strong>"&gt;&lt;/a&gt;</pre>
 </fieldset>
 
+<fieldset>
+	<legend>Example 3: Custom Loupe Image</legend>
+
+	<a href="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_b.jpg"><img src="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_m.jpg" id="custom"></a>
+	<script type="text/javascript">
+		$(function(){ 
+			$('#custom').jloupe({radiusLT:100, margin:12, color:false, image:'loupe-trans.png'});
+		 });
+		
+	</script>
+	<pre>&lt;a href="largesize.jpg"&gt;&lt;img src="thumbnail.jpg" id="<strong>custom</strong>"&gt;&lt;/a&gt;</pre>
+	<pre>$('<strong>#custom</strong>').jloupe({radiusLT:100, margin:12, color:'none', image:'<strong>loupe-trans.png</strong>'});</pre>
+</fieldset>
+
+<fieldset>
+	<legend>Example 4: Custom Size and Shape</legend>
+
+	<a href="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_b.jpg"><img src="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_m.jpg" id="shape"></a>
+	<script type="text/javascript">
+		
+		$(function(){ $('#shape').jloupe({radiusLT:0, radiusRT:10, radiusRB:0, radiusLB:10, width:300, height:150, color:'#f2730b'}); });
+		
+	</script>
+	<pre>&lt;a href="largesize.jpg"&gt;&lt;img src="thumbnail.jpg" id="<strong>shape</strong>"&gt;&lt;/a&gt;</pre>
+	<pre>$('<strong>#shape</strong>').jloupe({radiusLT:0, radiusRT:10, radiusRB:0, radiusLB:10, width:300, height:150, color:'#f2730b'});</pre>
+</fieldset>
+
 <h2>Configurable Options</h2>
 <ul>
-	<li><strong>loupe</strong>: set the width and height of the loupe</li>
-	<li><strong>margin</strong>: the margin around the viewable area inside of the loupe</li>
-	<li><strong>cursorOffset</strong>: set the x and y distance from the cursor. (note: this will not work if the offset is a negative integer)</li>
-	<li><strong>bgColor</strong>: the background color of the loupe</li>
+	<li><strong>width</strong>: (int) in pixels</li>
+	<li><strong>height</strong>: (int) in pixels</li>
+	<li><strong>margin</strong>: (ing) the margin around the viewable area inside of the loupe</li>
+	<li><strong>cursorOffsetX, cursorOffsetY</strong>: (int) set the x and y pixel distance from the cursor. (note: this will not work if the offset is a negative integer)</li>
+	<li><strong>color</strong>: (str) css value for the background color of the loupe</li>
+	<li><strong>radiusLT</strong>: (int) left top radius</li>
+	<li><strong>radiusLB</strong>: (int) left bottom radius</li>
+	<li><strong>radiusRT:</strong>: (int) right top radius</li>
+	<li><strong>radiusRB:</strong>: (int) right bottom radius</li>
+	<li><strong>image:</strong>: (str) url to image</li>
+	<li><strong>repeat:</strong>: (bool) enable or disable repeating background.</li>
 </ul>
 
-<p>Current version 1.2 (20100830)</p>
+<p>Current version 1.3 (20100831)</p>
 
 </body>
 </html>
