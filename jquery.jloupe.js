@@ -29,7 +29,8 @@ jQuery.fn.jloupe = function(o){
 		radiusLB:100,
 		radiusRT:100,
 		radiusRB:100,
-		color: '#999999',
+		borderColor: '#333',
+		backgroundColor: '#fff',
 		image: false,
 		repeat: false
 	};
@@ -42,8 +43,8 @@ jQuery.fn.jloupe = function(o){
 		.css('height',options.height +'px')
 		.hide()
 		.appendTo('body');
-		
-	if(options.color) loupe.css('backgroundColor', options.color)
+
+	if(options.borderColor) loupe.css('backgroundColor', options.borderColor);
 	
 	
 	if(options.repeat) loupe.css('backgroundRepeat', 'repeat');	
@@ -56,6 +57,8 @@ jQuery.fn.jloupe = function(o){
 		.css('marginLeft', options.margin +'px')
 		.css('marginTop', options.margin +'px')
 		.appendTo(loupe);
+
+	if(options.backgroundColor) view.css('backgroundColor', options.backgroundColor);
 
 	if($.support.cssProperty('borderRadius')){
 		if(options.image) loupe.css('backgroundImage', 'url('+ options.image +')');
