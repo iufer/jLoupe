@@ -1,24 +1,10 @@
 /*
- jQuery Loupe v1.3
- Copyright (C) 2010 Chris Iufer (chris@iufer.com)
-
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>
-
+ jQuery Loupe v1.3.1
+ https://github.com/iufer/jLoupe
 */
 
 jQuery.fn.jloupe = function(o){
-	var version = '1.3';
+	var version = '1.3.1';
 	var options = {		
 		width:200,
 		height:200,
@@ -29,24 +15,26 @@ jQuery.fn.jloupe = function(o){
 		radiusLB:100,
 		radiusRT:100,
 		radiusRB:100,
-		borderColor: '#333',
-		backgroundColor: '#fff',
+		borderColor:'#999',
+		backgroundColor:'#ddd',
 		image: false,
-		repeat: false
+		repeat: false,
+		fade: true
 	};
-	
-	if(o) jQuery.extend(options, o);
-		
+	if(o) {
+		jQuery.extend(options, o);
+		if(o.hasOwnProperty('color')) {
+			options.borderColor = options.backgroundColor = o.color;
+		}
+	}
 	var loupe = $('<div />').addClass('thejloupe')
 		.css('position','absolute')
 		.css('width',options.width +'px')
 		.css('height',options.height +'px')
+		.css('backgroundColor', options.borderColor)
 		.hide()
 		.appendTo('body');
-
-	if(options.borderColor) loupe.css('backgroundColor', options.borderColor);
-	
-	
+	if(!options.borderColor) loupe.css('backgroundColor', 'none')
 	if(options.repeat) loupe.css('backgroundRepeat', 'repeat');	
 	else loupe.css('backgroundRepeat', 'no-repeat');	
 			
@@ -105,17 +93,19 @@ jQuery.fn.jloupe = function(o){
 			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 		}
 		$(loupe).offset({top:posy+options.cursorOffsetY, left:posx+options.cursorOffsetX});
-		
 		zlo = (((posx - o.left) / this.width) * $(i).attr('width') *-1) + (options.width/2.5);
 		zto = (((posy - o.top) / this.height) * $(i).attr('height') *-1) + (options.height/2.5);
-
 		$(view).css('backgroundImage', 'url('+ $(i).attr('src') +')').css('backgroundPosition', zlo+'px ' + zto+'px');
 	})
 	.bind('mouseleave', function(){
-		$(loupe).stop(true, true).fadeOut(100);
+		$(loupe).stop(true, true);
+		if(options.fade) $(loupe).fadeOut(100);
+		else $(loupe).hide();
 	})
 	.bind('mouseenter', function(){
-		$(loupe).stop(true, true).fadeIn();
+		$(loupe).stop(true, true);
+		if(options.fade) $(loupe).fadeIn();
+		else $(loupe).show();
 	});
 	
 	return this;

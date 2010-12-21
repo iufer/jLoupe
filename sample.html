@@ -17,6 +17,7 @@
 		pre { font-family:Menlo, courier; }
 		pre strong { color:orange; }
 		img {border:0; }
+		th { text-align:left; }
 	</style>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
@@ -26,74 +27,75 @@
 
 
 
-<h1>jLoupe 1.3</h1>
-<p>By Chris Iufer <a href="mailto:&#x63;&#x68;&#x72;&#x69;&#x73;&#x40;&#x69;&#x75;&#x66;&#x65;&#x72;&#x2E;&#x63;&#x6F;&#x6D;">chris@iufer.com</a></p>
+<h1>jLoupe 1.3.1</h1>
+<p>By Chris Iufer <a href="mailto:chris@iufer.com">chris@iufer.com</a></p>
 <hr />
-
-<p>Requires <a href="http://docs.jquery.com/Downloading_jQuery">jQuery 1.4+</a></p>
-
+<p>Requires <a href="http://docs.jquery.com/Downloading_jQuery">jQuery 1.4</a></p>
 <h2><a href="http://github.com/iufer/jLoupe">Download from Github</a></h2>
+
 
 <fieldset>
 	<legend>Example 1: Scaled Thumbnail</legend>
-	<p>an image scaled using the width or height attribute</p>
-
+	<p>Image scaled using the width or height attribute. Scaled from 2048px width to 256px.</p>
 	<img src="http://farm1.static.flickr.com/72/160628558_32dbe92ceb_o.jpg" width="256" class="jLoupe">
 	<pre>&lt;img src="<strong>largesize.jpg</strong>" width="256" class="<strong>jLoupe</strong>"&gt;</pre>
 </fieldset>
 
+
 <fieldset>
 	<legend>Example 2: Linked Thumbnail</legend>
-	<p>a thumbnail image with a fullsize image set as the link href</p>
-
+	<p>Thumbnail image with a fullsize image set as the link href</p>
 	<a href="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_b.jpg"><img src="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_m.jpg" class="jLoupe"></a>
-	
 	<pre>&lt;a href="<strong>largesize.jpg</strong>"&gt;&lt;img src="thumbnail.jpg" class="<strong>jLoupe</strong>"&gt;&lt;/a&gt;</pre>
 </fieldset>
 
+
+
 <fieldset>
 	<legend>Example 3: Custom Loupe Image</legend>
-
 	<a href="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_b.jpg"><img src="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_m.jpg" id="custom"></a>
 	<script type="text/javascript">
 		$(function(){ 
-			$('#custom').jloupe({radiusLT:100, margin:12, color:false, image:'loupe-trans.png'});
+			$('#custom').jloupe({radiusLT:100, margin:12, borderColor:false, image:'loupe-trans.png'});
 		 });
-		
 	</script>
 	<pre>&lt;a href="largesize.jpg"&gt;&lt;img src="thumbnail.jpg" id="<strong>custom</strong>"&gt;&lt;/a&gt;</pre>
-	<pre>$('<strong>#custom</strong>').jloupe({radiusLT:100, margin:12, color:'none', image:'<strong>loupe-trans.png</strong>'});</pre>
+	<pre>$('<strong>#custom</strong>').jloupe({radiusLT:100, margin:12, borderColor:false, image:'<strong>loupe-trans.png</strong>'});</pre>
 </fieldset>
+
+
 
 <fieldset>
 	<legend>Example 4: Custom Size and Shape</legend>
-
 	<a href="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_b.jpg"><img src="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_m.jpg" id="shape"></a>
 	<script type="text/javascript">
-		
-		$(function(){ $('#shape').jloupe({radiusLT:0, radiusRT:10, radiusRB:0, radiusLB:10, width:300, height:150, color:'#f2730b'}); });
-		
+		$(function(){ $('#shape').jloupe({radiusLT:0, radiusRT:10, radiusRB:0, radiusLB:10, width:300, height:150, borderColor:'#f2730b', backgroundColor:'#000', fade:false}); });
 	</script>
 	<pre>&lt;a href="largesize.jpg"&gt;&lt;img src="thumbnail.jpg" id="<strong>shape</strong>"&gt;&lt;/a&gt;</pre>
-	<pre>$('<strong>#shape</strong>').jloupe({radiusLT:0, radiusRT:10, radiusRB:0, radiusLB:10, width:300, height:150, color:'#f2730b'});</pre>
+	<pre>$('<strong>#shape</strong>').jloupe({radiusLT:0, radiusRT:10, radiusRB:0, radiusLB:10, width:300, height:150, borderColor:'#f2730b', backgroundColor:'#000', fade:false});</pre>
 </fieldset>
 
-<h2>Configurable Options</h2>
-<ul>
-	<li><strong>width</strong>: (int) in pixels</li>
-	<li><strong>height</strong>: (int) in pixels</li>
-	<li><strong>margin</strong>: (ing) the margin around the viewable area inside of the loupe</li>
-	<li><strong>cursorOffsetX, cursorOffsetY</strong>: (int) set the x and y pixel distance from the cursor. (note: this will not work if the offset is a negative integer)</li>
-	<li><strong>color</strong>: (str) css value for the background color of the loupe</li>
-	<li><strong>radiusLT</strong>: (int) left top radius</li>
-	<li><strong>radiusLB</strong>: (int) left bottom radius</li>
-	<li><strong>radiusRT:</strong>: (int) right top radius</li>
-	<li><strong>radiusRB:</strong>: (int) right bottom radius</li>
-	<li><strong>image:</strong>: (str) url to image</li>
-	<li><strong>repeat:</strong>: (bool) enable or disable repeating background.</li>
-</ul>
 
-<p>Current version 1.3 (20100831)</p>
+
+<h2>Configurable Options</h2>
+	<table border="0" cellspacing="5" cellpadding="5">
+		<tr><th>Property</th><th>Default</th><th></th></tr>
+		<tr><td>width</td><td>200</td><td>loupe width</td></tr>
+		<tr><td>height</td><td>200</td><td>loupe height</td></tr>
+		<tr><td>margin</td><td>6</td><td>pixel margin aroudn the viewing area of the loupe</td></tr>
+		<tr><td>cursorOffsetX</td><td>10</td><td>horizontal distance from the cursor</td></tr>
+		<tr><td>cursorOffsetY</td><td>10</td><td>vertical distance from the cursor</td></tr>
+		<tr><td><s>color</s></td><td><s>false</s></td><td>deprecated in 1.3.1. use backgroundColor or borderColor instead</td></tr>
+		<tr><td>borderColor</td><td>'#999'</td><td>border color</td></tr>
+		<tr><td>backgroundColor</td><td>'#fff'</td><td>background color of the negative space around the zoomed image</td></tr>
+		<tr><td>radiusLT</td><td>0</td><td>left top radius</td></tr>
+		<tr><td>radiusLB</td><td>100</td><td>left bottom radius</td></tr>
+		<tr><td>radiusRT</td><td>100</td><td>right top radius</td></tr>
+		<tr><td>radiusRB</td><td>100</td><td>right bottom radius</td></tr>
+		<tr><td>image</td><td>false</td><td>background image url</td></tr>
+		<tr><td>repeat</td><td>false</td><td>enable or disable repeating background image</td></tr>
+		<tr><td>fade</td><td>true</td><td>use fade in/out</td></tr>
+	</table>
 
 </body>
 </html>
