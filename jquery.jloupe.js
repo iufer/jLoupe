@@ -93,8 +93,10 @@ jQuery.fn.jloupe = function(o){
 			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 		}
 		$(loupe).offset({top:posy+options.cursorOffsetY, left:posx+options.cursorOffsetX});
-		zlo = (((posx - o.left) / this.width) * $(i).attr('width') *-1) + (options.width/2.5);
-		zto = (((posy - o.top) / this.height) * $(i).attr('height') *-1) + (options.height/2.5);
+		w = $(i).prop ? $(i).prop('width') : $(i).attr('width');
+		h = $(i).prop ? $(i).prop('height') : $(i).attr('height');
+		zlo = (((posx - o.left) / this.width) * w *-1) + (options.width/2.5);
+		zto = (((posy - o.top) / this.height) * h *-1) + (options.height/2.5);
 		$(view).css('backgroundImage', 'url('+ $(i).attr('src') +')').css('backgroundPosition', zlo+'px ' + zto+'px');
 	})
 	.bind('mouseleave', function(){
