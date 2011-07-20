@@ -1,10 +1,10 @@
 /*
- jQuery Loupe v1.3.1
+ jQuery Loupe v1.3.2
  https://github.com/iufer/jLoupe
 */
 
 jQuery.fn.jloupe = function(o){
-	var version = '1.3.1';
+	var version = '1.3.2';
 	var options = {		
 		width:200,
 		height:200,
