@@ -72,15 +72,8 @@ jQuery.fn.jloupe = function(o){
 				.css('-moz-border-radius-topright', options.radiusRT);
 		}
 	}		
-		
-	$(this).each(function(){
-		var h = $(this).parent('a').attr('href');
-		var s = $(this).attr('src');
-		s = (h) ? h : s;
-		var i = $('<img />').attr('src', s);	
-		$(this).data('zoom',i);		
-	})
-	.bind('mousemove', function(e){ 
+
+	function move_jLoupe(e) {
 		var o = $(this).offset();
 		var i = $(this).data('zoom');
 		var posx = 0, posy = 0;
@@ -93,22 +86,35 @@ jQuery.fn.jloupe = function(o){
 			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 		}
 		$(loupe).offset({top:posy+options.cursorOffsetY, left:posx+options.cursorOffsetX});
-		w = $(i).prop ? $(i).prop('width') : $(i).attr('width');
-		h = $(i).prop ? $(i).prop('height') : $(i).attr('height');
-		zlo = (((posx - o.left) / this.width) * w *-1) + (options.width/2.5);
-		zto = (((posy - o.top) / this.height) * h *-1) + (options.height/2.5);
+		var w = $(i).prop ? $(i).prop('width') : $(i).attr('width');
+		var h = $(i).prop ? $(i).prop('height') : $(i).attr('height');
+		var zlo = (((posx - o.left) / this.width) * w *-1) + (options.width/2.5);
+		var zto = (((posy - o.top) / this.height) * h *-1) + (options.height/2.5);
 		$(view).css('backgroundImage', 'url('+ $(i).attr('src') +')').css('backgroundPosition', zlo+'px ' + zto+'px');
-	})
-	.bind('mouseleave', function(){
+	}
+
+	function start_jLoupe() {
 		$(loupe).stop(true, true);
 		if(options.fade) $(loupe).fadeOut(100);
 		else $(loupe).hide();
-	})
-	.bind('mouseenter', function(){
+	}
+
+	function stop_jLoupe() {
 		$(loupe).stop(true, true);
 		if(options.fade) $(loupe).fadeIn();
 		else $(loupe).show();
-	});
+	}
+		
+	$(this).each(function(){
+		var h = $(this).parent('a').attr('href');
+		var s = $(this).attr('src');
+		s = (h) ? h : s;
+		var i = $('<img />').attr('src', s);	
+		$(this).data('zoom',i);		
+	})
+	.bind('mousemove', move_jLoupe)
+	.bind('mouseleave', start_jLoupe)
+	.bind('mouseenter', stop_jLoupe);
 	
 	return this;
 };
