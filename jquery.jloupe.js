@@ -106,11 +106,12 @@ jQuery.fn.jloupe = function(o){
 	}
 		
 	$(this).each(function(){
-		var h = $(this).parent('a').attr('href');
-		var s = $(this).attr('src');
-		s = (h) ? h : s;
-		var i = $('<img />').attr('src', s);	
-		$(this).data('zoom',i);		
+		var dataOriginal = $(this).data("original");
+		var parentHref = $(this).parent('a').attr('href');
+		var src = $(this).attr('src');
+		var imageSource = dataOriginal || parentHref || src;
+		var imageElement = $('<img />').attr('src', imageSource);
+		$(this).data('zoom', imageElement);
 	})
 	.bind('mousemove', move_jLoupe)
 	.bind('mouseleave', start_jLoupe)
