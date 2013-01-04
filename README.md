@@ -31,7 +31,7 @@ http://chrisiufer.com/loupe/
 ###Change Log
 <table border="0" cellspacing="5" cellpadding="5">
 		<tr><th>Version</th><th></th></tr>
-		<tr><td>V 1.3.4 Added data-original attribute via @sandstrom. Code cleanup.</td></tr>
+		<tr><td>V 1.3.4</td><td>Added data-original attribute via @sandstrom. Code cleanup.</td></tr>
 		<tr><td>V 1.3.2</td><td>Updated to work with jQuery 1.6 by changing attr() calls to prop().</td></tr>
 		<tr><td>V 1.3.3</td><td>Merged changes from jpcaruana to make start, stop, and move handlers easier to access.</td></tr>
 	</table>	
