@@ -1,0 +1,47 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.jloupe.min.js"></script>
+<script type="text/javascript">
+	$(function(){ 
+		// Image 1 and 2 use built-in jLoupe selector
+
+		// Image 3
+		$('#custom').jloupe({
+		    radiusLT: 100,
+		    margin: 12,
+		    borderColor: false,
+		    image: 'loupe-trans.png'
+		});
+
+		// Image 4
+		$('#shape').jloupe({
+		    radiusLT: 0,
+		    radiusRT: 10,
+		    radiusRB: 0,
+		    radiusLB: 10,
+		    width: 300,
+		    height: 150,
+		    borderColor: '#f2730b',
+		    backgroundColor: '#000',
+		    fade: false
+		});
+	});
+</script>
+
+<h2>Image scaled using data attribute</h2>
+<img data-original="http://farm3.staticflickr.com/2436/3910062581_2ebe91d259_b.jpg" src="http://farm3.staticflickr.com/2436/3910062581_2ebe91d259_n.jpg" class="jLoupe" />
+<br> 
+
+<h2>Image scaled using only the width attribute</h2>
+<img src="http://farm1.static.flickr.com/72/160628558_32dbe92ceb_o.jpg" width="256" class="jLoupe" />
+<br>
+
+<h2>Thumbnail image inside a link to the full resolution version</h2>
+<a href="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_b.jpg"><img src="http://farm3.static.flickr.com/2019/2278690584_b47a9a668e_m.jpg" class="jLoupe"></a>
+<br>
+
+<h2>Using a custom loupe image</h2>
+<a href="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_b.jpg"><img src="http://farm3.static.flickr.com/2613/3910847234_8b65b9ba58_m.jpg" id="custom"></a>
+<br>
+
+<h2>Custom border and background colors</h2>
+<a href="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_b.jpg"><img src="http://farm4.static.flickr.com/3043/3910845848_101166c6cb_m.jpg" id="shape"></a>

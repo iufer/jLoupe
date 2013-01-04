@@ -1,57 +1,83 @@
 /*
- jQuery Loupe v1.3.3
+ jQuery Loupe v1.3.4
  https://github.com/iufer/jLoupe
 */
 
-jQuery.fn.jloupe = function(o){
-	var version = '1.3.3';
-	var options = {		
-		width:200,
-		height:200,
-		margin:6,
-		cursorOffsetX:10,
-		cursorOffsetY:10,
-		radiusLT:0,
-		radiusLB:100,
-		radiusRT:100,
-		radiusRB:100,
-		borderColor:'#999',
-		backgroundColor:'#ddd',
-		image: false,
-		repeat: false,
-		fade: true
+(function($) { 
+
+$.fn.jloupe = function(o){
+	var version = '1.3.4', loupe, view,
+	 	options = {		
+			width:200,
+			height:200,
+			margin:6,
+			cursorOffsetX:10,
+			cursorOffsetY:10,
+			radiusLT:0,
+			radiusLB:100,
+			radiusRT:100,
+			radiusRB:100,
+			borderColor:'#999',
+			backgroundColor:'#ddd',
+			image: false,
+			repeat: false,
+			fade: true,
+			fadeIn: 200,
+			fadeOut: 100,
 	};
+
 	if(o) {
-		jQuery.extend(options, o);
+		$.extend(options, o);
 		if(o.hasOwnProperty('color')) {
 			options.borderColor = options.backgroundColor = o.color;
 		}
 	}
-	var loupe = $('<div />').addClass('thejloupe')
-		.css('position','absolute')
-		.css('width',options.width +'px')
-		.css('height',options.height +'px')
-		.css('backgroundColor', options.borderColor)
+	
+	loupe = $('<div />').addClass('thejloupe')
+		.css({
+			position: 'absolute',
+			width: options.width +'px',
+			height: options.height +'px',
+			backgroundColor: options.borderColor
+		})
 		.hide()
 		.appendTo('body');
-	if(!options.borderColor) loupe.css('backgroundColor', 'none')
-	if(options.repeat) loupe.css('backgroundRepeat', 'repeat');	
-	else loupe.css('backgroundRepeat', 'no-repeat');	
+
+	if(!options.borderColor) {
+		loupe.css('backgroundColor', 'none')
+	}
+	if(options.repeat) {
+		loupe.css('backgroundRepeat', 'repeat'); 
+	}
+	else {
+		loupe.css('backgroundRepeat', 'no-repeat');	
+	}
 			
-	var view = $('<div />').addClass('thejloupeview')
-		.css('width',options.width-options.margin*2 +'px')
-		.css('height',options.height-options.margin*2 +'px')
-		.css('backgroundRepeat','no-repeat')
-		.css('marginLeft', options.margin +'px')
-		.css('marginTop', options.margin +'px')
+	view = $('<div />').addClass('thejloupeview')
+		.css({
+			width: options.width-options.margin*2 +'px',
+			height: options.height-options.margin*2 +'px',
+			backgroundRepeat: 'no-repeat',
+			marginLeft: options.margin +'px',
+			marginTop: options.margin +'px'
+		})
 		.appendTo(loupe);
 
-	if(options.backgroundColor) view.css('backgroundColor', options.backgroundColor);
+	if(options.backgroundColor) {view.css('backgroundColor', options.backgroundColor);}
 
-	if($.support.cssProperty('borderRadius')){
-		if(options.image) loupe.css('backgroundImage', 'url('+ options.image +')');
-		
-		$(view)
+	if(options.image) {loupe.css('backgroundImage', 'url('+ options.image +')');}
+	
+	$(view)
+		.css('border-top-left-radius', options.radiusLT)
+		.css('border-bottom-left-radius', options.radiusLB)
+		.css('border-bottom-right-radius', options.radiusRB)
+		.css('border-top-right-radius', options.radiusRT)
+		.css('-moz-border-radius-topleft', options.radiusLT)
+		.css('-moz-border-radius-bottomright', options.radiusRB)
+		.css('-moz-border-radius-bottomleft', options.radiusLB)
+		.css('-moz-border-radius-topright', options.radiusRT);
+	if(!options.image || options.repeat) {
+		$(loupe)
 			.css('border-top-left-radius', options.radiusLT)
 			.css('border-bottom-left-radius', options.radiusLB)
 			.css('border-bottom-right-radius', options.radiusRB)
@@ -60,23 +86,16 @@ jQuery.fn.jloupe = function(o){
 			.css('-moz-border-radius-bottomright', options.radiusRB)
 			.css('-moz-border-radius-bottomleft', options.radiusLB)
 			.css('-moz-border-radius-topright', options.radiusRT);
-		if(!options.image || options.repeat) {
-			$(loupe)
-				.css('border-top-left-radius', options.radiusLT)
-				.css('border-bottom-left-radius', options.radiusLB)
-				.css('border-bottom-right-radius', options.radiusRB)
-				.css('border-top-right-radius', options.radiusRT)
-				.css('-moz-border-radius-topleft', options.radiusLT)
-				.css('-moz-border-radius-bottomright', options.radiusRB)
-				.css('-moz-border-radius-bottomleft', options.radiusLB)
-				.css('-moz-border-radius-topright', options.radiusRT);
-		}
-	}		
+	}
 
 	function move_jLoupe(e) {
-		var o = $(this).offset();
-		var i = $(this).data('zoom');
-		var posx = 0, posy = 0;
+
+		var w, h, zlo, zto,
+			o = $(this).offset(),
+		    i = $(this).data('zoom'),
+		    posx = 0, 
+		    posy = 0;
+
 		if(e.pageX || e.pageY){
 			posx = e.pageX;
 			posy = e.pageY;
@@ -85,54 +104,44 @@ jQuery.fn.jloupe = function(o){
 			posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
 			posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
 		}
+
 		$(loupe).offset({top:posy+options.cursorOffsetY, left:posx+options.cursorOffsetX});
-		var w = $(i).prop ? $(i).prop('width') : $(i).attr('width');
-		var h = $(i).prop ? $(i).prop('height') : $(i).attr('height');
-		var zlo = (((posx - o.left) / this.width) * w *-1) + (options.width/2.5);
-		var zto = (((posy - o.top) / this.height) * h *-1) + (options.height/2.5);
+		w = $(i).prop ? $(i).prop('width') : $(i).attr('width');
+		h = $(i).prop ? $(i).prop('height') : $(i).attr('height');
+		zlo = (((posx - o.left) / this.width) * w *-1) + (options.width/2.5);
+		zto = (((posy - o.top) / this.height) * h *-1) + (options.height/2.5);
 		$(view).css('backgroundImage', 'url('+ $(i).attr('src') +')').css('backgroundPosition', zlo+'px ' + zto+'px');
 	}
 
 	function start_jLoupe() {
 		$(loupe).stop(true, true);
-		if(options.fade) $(loupe).fadeOut(100);
-		else $(loupe).hide();
+		if(options.fade) { $(loupe).fadeOut(options.fadeOut); }
+		else { $(loupe).hide(); }
 	}
 
 	function stop_jLoupe() {
 		$(loupe).stop(true, true);
-		if(options.fade) $(loupe).fadeIn();
-		else $(loupe).show();
+		if(options.fade) {$(loupe).fadeIn(options.fadeIn);}
+		else {$(loupe).show();}
 	}
 		
 	$(this).each(function(){
-		var dataOriginal = $(this).data("original");
-		var parentHref = $(this).parent('a').attr('href');
-		var src = $(this).attr('src');
-		var imageSource = dataOriginal || parentHref || src;
-		var imageElement = $('<img />').attr('src', imageSource);
+		var dataOriginal = $(this).data("original"),
+		    parentHref = $(this).parent('a').attr('href'),
+		    src = $(this).attr('src'),
+		    imageSource = dataOriginal || parentHref || src,
+		    imageElement = $('<img />').attr('src', imageSource);
+
 		$(this).data('zoom', imageElement);
 	})
-	.bind('mousemove', move_jLoupe)
-	.bind('mouseleave', start_jLoupe)
-	.bind('mouseenter', stop_jLoupe);
+	.on('mousemove', move_jLoupe)
+	.on('mouseleave', start_jLoupe)
+	.on('mouseenter', stop_jLoupe);
 	
 	return this;
 };
-	
-
-$.support.cssProperty = (function() {
-  function cssProperty(p, rp) {
-    var b = document.body || document.documentElement;
-    var s = b.style;
-    if(typeof s == 'undefined') { return false; }
-    if(typeof s[p] == 'string') { return rp ? p : true; }
-    var v = ['Moz', 'Webkit', 'Khtml', 'O', 'Ms'];
-    p = p.charAt(0).toUpperCase() + p.substr(1);
-    for(var i=0; i<v.length; i++) {if(typeof s[v[i] + p] == 'string') { return rp ? (v[i] + p) : true; }}
-  }
-  return cssProperty;
-})();
 
 
 $(function(){ $('.jLoupe, .jloupe').jloupe(); });
+
+})(jQuery);
